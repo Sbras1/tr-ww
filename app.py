@@ -127,6 +127,19 @@ def add_balance(user_id, amount):
     except Exception as e:
         print(f"❌ خطأ في حفظ الرصيد إلى Firebase: {e}")
 
+def get_user_profile_photo(user_id):
+    """جلب صورة البروفايل من تيليجرام أو استخدام صورة افتراضية"""
+    try:
+        photos = bot.get_user_profile_photos(user_id, limit=1)
+        if photos.total_count > 0:
+            file_id = photos.photos[0][-1].file_id
+            file_info = bot.get_file(file_id)
+            file_url = f"https://api.telegram.org/file/bot{TOKEN}/{file_info.file_path}"
+            return file_url
+    except Exception as e:
+        print(f"⚠️ لم نتمكن من جلب صورة البروفايل: {e}")
+    return None
+
 # إضافة UUID للمنتجات الموجودة (إذا لم يكن لديها ID)
 def ensure_product_ids():
     for item in marketplace_items:
@@ -1308,8 +1321,8 @@ HTML_PAGE = """
             transform: rotate(90deg);
         }
         .sidebar-avatar {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             background: linear-gradient(135deg, #00b894, #55efc4);
             display: flex;
@@ -1318,6 +1331,20 @@ HTML_PAGE = """
             margin: 0 auto 12px;
             font-size: 32px;
             box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            position: relative;
+        }
+        .sidebar-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .sidebar-avatar-fallback {
+            font-size: 35px;
         }
         .sidebar-user-name {
             color: white;
@@ -1505,7 +1532,19 @@ HTML_PAGE = """
         <!-- رأس القائمة مع معلومات المستخدم -->
         <div class="sidebar-header">
             <button class="sidebar-close" onclick="closeSidebar()">✕</button>
-            <div class="sidebar-avatar">👤</div>
+            <div class="sidebar-avatar">
+                {% if profile_photo %}
+                    <img src="{{ profile_photo }}" 
+                         alt="{{ user_name }}"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="sidebar-avatar-fallback" style="display:none;">👤</div>
+                {% else %}
+                    <img src="https://ui-avatars.com/api/?name={{ user_name|urlencode }}&background=00b894&color=fff&size=80&bold=true&font-size=0.4"
+                         alt="{{ user_name }}"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="sidebar-avatar-fallback" style="display:none;">👤</div>
+                {% endif %}
+            </div>
             <div class="sidebar-user-name" id="sidebarUserName">{{ user_name }}</div>
             <div class="sidebar-user-id">ID: <span id="sidebarUserId">{{ current_user_id }}</span></div>
             <div class="sidebar-balance">💰 <span id="sidebarBalance">{{ balance }}</span> ريال</div>
@@ -3334,10 +3373,12 @@ def index():
     user_id = session.get('user_id') or request.args.get('user_id')
     user_name = session.get('user_name', 'ضيف')
     
-    # 1. جلب الرصيد (محدث من Firebase)
+    # 1. جلب الرصيد وصورة البروفايل (محدث من Firebase)
     balance = 0.0
+    profile_photo = None
     if user_id:
         balance = get_balance(user_id)
+        profile_photo = get_user_profile_photo(user_id)
     
     # 2. جلب المنتجات (مباشرة من Firebase لضمان ظهورها)
     items = []
@@ -3390,7 +3431,8 @@ def index():
                                   my_purchases=my_purchases,
                                   balance=balance, 
                                   current_user_id=user_id or 0, 
-                                  user_name=user_name)
+                                  user_name=user_name,
+                                  profile_photo=profile_photo)
 
 # صفحة مشترياتي المنفصلة
 MY_PURCHASES_PAGE = """
