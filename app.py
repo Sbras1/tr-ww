@@ -1517,6 +1517,337 @@ HTML_PAGE = """
         /* تعديل padding للـ body لتجنب التداخل مع زر القائمة */
         body {
             padding-top: 70px !important;
+            padding-bottom: 80px !important; /* مساحة للـ bottom bar */
+        }
+        
+        /* ========== Bottom Bar ========== */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: linear-gradient(180deg, rgba(26, 26, 26, 0.98) 0%, rgba(26, 26, 26, 1) 100%);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 20px;
+            z-index: 1400;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .bottom-bar-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            margin: 0 5px;
+            min-height: 55px;
+        }
+        
+        .bottom-bar-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .bottom-bar-btn:active {
+            transform: translateY(0);
+        }
+        
+        .bottom-bar-icon {
+            font-size: 26px;
+            line-height: 1;
+        }
+        
+        .bottom-bar-text {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+        
+        .bottom-bar-badge {
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(231, 76, 60, 0.5);
+        }
+        
+        /* ========== Login Modal ========== */
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+        
+        .login-modal.active {
+            display: flex;
+        }
+        
+        .login-modal-content {
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 380px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.3s;
+            position: relative;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .login-modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .login-modal-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+        
+        .login-modal-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .login-modal-subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+        
+        .login-modal-features {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-right: 3px solid #667eea;
+        }
+        
+        .login-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 8px 0;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 13px;
+        }
+        
+        .login-modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .login-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .login-btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .login-btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .login-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .login-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        /* ========== Bottom Sheet للشحن ========== */
+        .bottom-sheet {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 100%);
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 1900;
+            transform: translateY(100%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .bottom-sheet.active {
+            transform: translateY(0);
+        }
+        
+        .bottom-sheet-handle {
+            width: 40px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            margin: 0 auto 20px;
+        }
+        
+        .bottom-sheet-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .bottom-sheet-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .bottom-sheet-balance {
+            background: linear-gradient(135deg, rgba(0, 184, 148, 0.2), rgba(85, 239, 196, 0.2));
+            border: 1px solid rgba(0, 184, 148, 0.4);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .bottom-sheet-balance-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+        
+        .bottom-sheet-balance-value {
+            color: #55efc4;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .bottom-sheet-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+        }
+        
+        .bottom-sheet-input-group {
+            margin: 15px 0;
+        }
+        
+        .bottom-sheet-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .bottom-sheet-input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 15px;
+            text-align: center;
+            font-family: monospace;
+            letter-spacing: 1px;
+            box-sizing: border-box;
+        }
+        
+        .bottom-sheet-input:focus {
+            outline: none;
+            border-color: #00b894;
+        }
+        
+        .bottom-sheet-quick-charge {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .quick-charge-btn {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .quick-charge-btn:hover {
+            background: rgba(0, 184, 148, 0.2);
+            border-color: #00b894;
+            transform: translateY(-2px);
+        }
+        
+        .bottom-sheet-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+            z-index: 1800;
+            display: none;
+        }
+        
+        .bottom-sheet-overlay.active {
+            display: block;
         }
     </style>
 </head>
@@ -2136,6 +2467,15 @@ HTML_PAGE = """
             }
         }
         
+        // دالة لتحديث الرصيد في جميع الأماكن
+        function updateBalance(newBalance) {
+            // تحديث في الأماكن المختلفة
+            const balanceElements = document.querySelectorAll('#balance, #sheetBalance, #sidebarBalance');
+            balanceElements.forEach(el => {
+                if (el) el.textContent = newBalance;
+            });
+        }
+        
         // دالة لفتح/إغلاق قسم الطلبات
         async function toggleOrders() {
             const ordersSection = document.getElementById('ordersSection');
@@ -2444,7 +2784,229 @@ HTML_PAGE = """
         window.addEventListener('DOMContentLoaded', function() {
             filterCategory('نتفلكس');
         });
+        
+        // ========== Bottom Bar Functions ==========
+        
+        function openAccountSection() {
+            {% if current_user_id and current_user_id != 0 %}
+                // مسجل دخول - فتح اللوحة الجانبية
+                toggleSidebar();
+            {% else %}
+                // غير مسجل - طلب تسجيل الدخول
+                openLoginModal('حسابي');
+            {% endif %}
+        }
+        
+        function openChargeSection() {
+            {% if current_user_id and current_user_id != 0 %}
+                // مسجل دخول - فتح نافذة الشحن
+                openBottomSheet();
+            {% else %}
+                // غير مسجل - طلب تسجيل الدخول
+                openLoginModal('شحن كود');
+            {% endif %}
+        }
+        
+        // ========== Login Modal ==========
+        let loginTargetSection = '';
+        
+        function openLoginModal(targetSection) {
+            loginTargetSection = targetSection;
+            document.getElementById('loginModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function performLogin() {
+            // استخدام Telegram WebApp للتسجيل
+            if (window.Telegram && window.Telegram.WebApp) {
+                const tg = window.Telegram.WebApp;
+                const user = tg.initDataUnsafe.user;
+                
+                if (user) {
+                    // حفظ معلومات المستخدم
+                    fetch('/verify', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            user_id: user.id,
+                            name: user.first_name + (user.last_name ? ' ' + user.last_name : '')
+                        })
+                    }).then(response => response.json())
+                      .then(data => {
+                          if (data.success) {
+                              // نجح التسجيل - إعادة تحميل الصفحة
+                              window.location.reload();
+                          }
+                      });
+                } else {
+                    alert('⚠️ لم نتمكن من التحقق من حسابك. تأكد من فتح التطبيق عبر تيليجرام.');
+                }
+            } else {
+                // fallback - توجيه للبوت
+                alert('📱 الرجاء فتح هذا الرابط من داخل تيليجرام');
+                window.location.href = 'https://t.me/YourBotUsername';
+            }
+        }
+        
+        // ========== Bottom Sheet للشحن ==========
+        
+        function openBottomSheet() {
+            document.getElementById('bottomSheetOverlay').classList.add('active');
+            document.getElementById('bottomSheet').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeBottomSheet() {
+            document.getElementById('bottomSheetOverlay').classList.remove('active');
+            document.getElementById('bottomSheet').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function submitChargeCodeFromSheet() {
+            const code = document.getElementById('chargeCodeInputSheet').value.trim();
+            if (!code) {
+                alert('⚠️ الرجاء إدخال كود الشحن');
+                return;
+            }
+            
+            fetch('/charge_balance', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({code: code})
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      alert('✅ ' + data.message);
+                      document.getElementById('chargeCodeInputSheet').value = '';
+                      updateBalance(data.new_balance);
+                      // إغلاق بعد ثانيتين
+                      setTimeout(() => {
+                          closeBottomSheet();
+                      }, 2000);
+                  } else {
+                      alert('❌ ' + data.message);
+                  }
+              }).catch(() => {
+                  alert('❌ حدث خطأ أثناء تفعيل الكود');
+              });
+        }
+        
+        // إغلاق عند الضغط على الخلفية
+        document.addEventListener('click', function(e) {
+            if (e.target.id === 'bottomSheetOverlay') {
+                closeBottomSheet();
+            }
+            if (e.target.id === 'loginModal') {
+                closeLoginModal();
+            }
+        });
     </script>
+    
+    <!-- Bottom Bar -->
+    <div class="bottom-bar">
+        <div class="bottom-bar-btn" onclick="openChargeSection()">
+            <div class="bottom-bar-icon">💳</div>
+            <div class="bottom-bar-text">شحن كود</div>
+        </div>
+        
+        <div class="bottom-bar-btn" onclick="openAccountSection()">
+            <div class="bottom-bar-icon">👤</div>
+            <div class="bottom-bar-text">حسابي</div>
+            {% if current_user_id and current_user_id != 0 %}
+                <!-- يمكن إضافة badge للإشعارات -->
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-modal-content">
+            <div class="login-modal-header">
+                <div class="login-modal-icon">🔐</div>
+                <h2 class="login-modal-title">تسجيل الدخول</h2>
+                <p class="login-modal-subtitle">للمتابعة، يرجى تسجيل الدخول<br>عبر حساب تيليجرام الخاص بك</p>
+            </div>
+            
+            <div class="login-modal-features">
+                <div class="login-feature">
+                    <span>✓</span>
+                    <span>آمن وسريع - لا يحتاج كلمة مرور</span>
+                </div>
+                <div class="login-feature">
+                    <span>✓</span>
+                    <span>حفظ معلوماتك وإدارة حسابك</span>
+                </div>
+                <div class="login-feature">
+                    <span>✓</span>
+                    <span>الوصول لجميع الميزات</span>
+                </div>
+            </div>
+            
+            <div class="login-modal-buttons">
+                <button class="login-btn login-btn-primary" onclick="performLogin()">
+                    📱 تسجيل الدخول
+                </button>
+                <button class="login-btn login-btn-secondary" onclick="closeLoginModal()">
+                    ✖ إلغاء
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Sheet للشحن -->
+    <div class="bottom-sheet-overlay" id="bottomSheetOverlay"></div>
+    <div class="bottom-sheet" id="bottomSheet">
+        <div class="bottom-sheet-handle"></div>
+        
+        <div class="bottom-sheet-header">
+            <h2 class="bottom-sheet-title">
+                <span>💳</span>
+                <span>شحن رصيدك</span>
+            </h2>
+        </div>
+        
+        <div class="bottom-sheet-balance">
+            <div class="bottom-sheet-balance-label">💰 رصيدك الحالي</div>
+            <div class="bottom-sheet-balance-value"><span id="sheetBalance">{{ balance }}</span> ريال</div>
+        </div>
+        
+        <div class="bottom-sheet-divider"></div>
+        
+        <div class="bottom-sheet-input-group">
+            <label class="bottom-sheet-label">📝 أدخل كود الشحن:</label>
+            <input type="text" 
+                   id="chargeCodeInputSheet" 
+                   class="bottom-sheet-input"
+                   placeholder="KEY-XXXXX-XXXXX"
+                   maxlength="20">
+        </div>
+        
+        <button class="login-btn login-btn-primary" style="width: 100%; margin: 15px 0;" onclick="submitChargeCodeFromSheet()">
+            ⚡ تفعيل الكود الآن
+        </button>
+        
+        <div class="bottom-sheet-divider"></div>
+        
+        <div class="bottom-sheet-input-group">
+            <label class="bottom-sheet-label">💸 أو شراء رصيد مباشر:</label>
+            <div class="bottom-sheet-quick-charge">
+                <div class="quick-charge-btn" onclick="alert('📞 تواصل معنا لشراء رصيد 20 ريال')">20ر</div>
+                <div class="quick-charge-btn" onclick="alert('📞 تواصل معنا لشراء رصيد 50 ريال')">50ر</div>
+                <div class="quick-charge-btn" onclick="alert('📞 تواصل معنا لشراء رصيد 100 ريال')">100ر</div>
+                <div class="quick-charge-btn" onclick="alert('📞 تواصل معنا لشراء رصيد 200 ريال')">200ر</div>
+            </div>
+        </div>
+        
+        <button class="login-btn login-btn-secondary" style="width: 100%; margin-top: 10px;" onclick="window.open('https://t.me/SBRAS1', '_blank')">
+            📞 تواصل معنا للشراء
+        </button>
+    </div>
+    
 </body>
 </html>
 """
